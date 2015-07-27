@@ -147,6 +147,7 @@ class Relationship(object):
 
     def contribute_to_class(self, source, name):
         if not issubclass(source, NodeModel):
+            print(source, source.__class__.__name__)
             raise TypeError("Relationships may only extend from Nodes.")
         self.creation_counter = source.creation_counter
 
@@ -256,7 +257,6 @@ class BoundRelationship(AttrRouter, DeferredAttribute):
                      'formfield',
                      ], self.__rel)
         self.null = False
-        self._args = 
 
     def get_attname_column(self):
         return (self.attname, self.attname)

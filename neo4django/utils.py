@@ -252,7 +252,7 @@ class AttrRouter(object):
 
         def b(self, *args, **kwargs):
             if 'DEBUG' in kwargs:
-                print 'DEBUG STATEMENT!'
+                print ('DEBUG STATEMENT!')
                 del kwargs['DEBUG']
             super(CoolOwner, self).b(*args, **kwargs)
 

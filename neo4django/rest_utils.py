@@ -3,7 +3,7 @@ from itertools import izip_longest, chain, ifilter
 
 
 def id_from_url(url):
-    from urlparse import urlsplit
+    from urllib.parse import urlsplit
     from posixpath import dirname, basename
     path = urlsplit(url).path
     b = basename(path)

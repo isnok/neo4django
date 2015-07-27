@@ -1,4 +1,4 @@
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 from django import test as django_test
 from django.conf import settings as _settings

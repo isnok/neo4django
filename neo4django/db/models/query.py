@@ -880,7 +880,7 @@ class Query(object):
                              is_summary=agg.is_summary)
         query.return_fields = SortedDict(
             (alias, make_aggregate_of_n(agg).as_cypher())
-            for alias, agg in query.aggregates.iteritems())
+            for alias, agg in query.aggregates.items())
         groovy, params = query.as_groovy(using)
         result_set = connections[using].gremlin_tx(groovy, raw=True, **params)
         # TODO HACK this only works for one aggregate
@@ -924,7 +924,7 @@ class Query(object):
             else:
                 index_qs_dict[key] = val
 
-        index_qs = [(key, unicode(val)) for key, val in index_qs_dict.iteritems()
+        index_qs = [(key, unicode(val)) for key, val in index_qs_dict.items()
                     if val is not None]
         
         # use index lookups, ids, OR a type tree traversal as a cypher START,

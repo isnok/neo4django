@@ -264,7 +264,7 @@ class Start(Clause):
     def get_params(self):
         return {
             'exprs': ','.join('%s=%s' % (k, v)
-                              for k, v in self.start_assignments.iteritems())
+                              for k, v in self.start_assignments.items())
         }
 
     @property
@@ -311,7 +311,7 @@ class With(Clause):
     def get_params(self):
         return {
             'fields': ','.join('%s AS %s' % (alias, field)
-                               for alias, field in self.field_dict.iteritems()),
+                               for alias, field in self.field_dict.items()),
             'order_by':unicode(self.order_by) if self.order_by else '',
             'limit': 'LIMIT %s' % str(self.limit)
                      if self.limit is not None else '',
@@ -360,7 +360,7 @@ class Return(Clause):
         distinct_fields = set(self.distinct_fields or [])
         field_alias_pairs = ((field if field not in distinct_fields
                               else 'DISTINCT ' + field, alias)
-                             for alias, field in self.field_dict.iteritems())
+                             for alias, field in self.field_dict.items())
         return {
             'fields': ','.join('%s AS %s' % pair for pair in field_alias_pairs),
             'limit': 'LIMIT %s' % str(self.limit)
@@ -422,7 +422,7 @@ class Set(Clause):
     def get_params(self):
         assignments = ('n.%s=%s' % (cypher_escape_identifier(field),
                                   cypher_primitive(value))
-                       for field, value in self.fields_and_values.iteritems())
+                       for field, value in self.fields_and_values.items())
         params = {
             'fields':','.join(assignments),
         }

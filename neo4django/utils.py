@@ -58,7 +58,7 @@ def uniqify(seq):
 
 
 def not_none(it):
-    return itertools.ifilter(None, it)
+    return filter(None, it)
 
 
 def Enum(*enums, **other_enums):
@@ -356,7 +356,7 @@ class AttrRouter(object):
         indicated by keyword boolean args `get`, `set`, and `delete`.
         """
         for d in self._build_dict_list(get=get, set=set, delete=delete):
-            for attr in itertools.ifilter(lambda x: x in d, attrs):
+            for attr in filter(lambda x: x in d, attrs):
                 del d[attr]
 
     def _route_all(self, attrs, obj):

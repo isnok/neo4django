@@ -506,7 +506,7 @@ def cypher_from_fields(nodetype, fields):
                                 (return_node_type_name, INSTANCE_REL, return_node_name))
 
         model_match = ''.join(
-            itertools.ifilter(None, itertools.chain.from_iterable(
+            filter(None, itertools.chain.from_iterable(
                 itertools.zip_longest(rel_match_components,
                                        node_match_components))))
 

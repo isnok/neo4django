@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import fields
 from django.db.models.fields import NOT_PROVIDED
 from django.core import exceptions, validators
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils import timezone, datetime_safe
 from django.forms import fields as formfields
 from django.conf import settings
@@ -114,7 +114,7 @@ class Property(object):
         if self.has_default():
             if callable(self._default):
                 return self._default()
-            return force_unicode(self._default, strings_only=True)
+            return force_text(self._default, strings_only=True)
         return None
 
     def to_neo(self, value):
@@ -730,7 +730,7 @@ class ArrayProperty(Property):
 
     default_validators = [validate_array]
 
-    member_to_neo_index = Property.to_neo_index.im_func
+    member_to_neo_index = Property.to_neo_index
 
     def __init__(self, *args, **kwargs):
         """
@@ -811,7 +811,7 @@ class IntArrayProperty(ArrayProperty):
     _internal_type_ = 'IntArrayProperty'
     default_validators = [validate_int_array]
 
-    member_to_neo_index = IntegerProperty.to_neo_index.im_func
+    member_to_neo_index = IntegerProperty.to_neo_index
 
 
 class BooleanProperty(Property):

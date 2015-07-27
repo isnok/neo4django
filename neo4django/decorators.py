@@ -96,6 +96,6 @@ def borrows_methods(target_cls, method_names):
     def wrapped(cls):
         for method_name in set(method_names):
             target_method = getattr(target_cls, method_name)
-            setattr(cls, method_name, target_method.im_func)
+            setattr(cls, method_name, target_method)
         return cls
     return wrapped

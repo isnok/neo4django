@@ -6,7 +6,7 @@ from django.contrib.admin.sites import AdminSite as DjangoAdminSite
 from django.contrib.admin.filters import (ListFilter, SimpleListFilter,
         FieldListFilter, BooleanFieldListFilter, RelatedFieldListFilter,
         ChoicesFieldListFilter, DateFieldListFilter, AllValuesFieldListFilter)
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 
 from ..utils import copy_func
 from ..contenttypes.models import ContentType
@@ -19,7 +19,7 @@ class ModelAdmin(DjangoModelAdmin):
             user_id         = request.user.pk,
             content_type_id = ContentType.objects.get_for_model(object).pk,
             object_id       = object.pk,
-            object_repr     = force_unicode(object),
+            object_repr     = force_text(object),
             action_flag     = ADDITION
         )
 
@@ -29,7 +29,7 @@ class ModelAdmin(DjangoModelAdmin):
             user_id         = request.user.pk,
             content_type_id = ContentType.objects.get_for_model(object).pk,
             object_id       = object.pk,
-            object_repr     = force_unicode(object),
+            object_repr     = force_text(object),
             action_flag     = CHANGE,
             change_message  = message
         )
@@ -45,7 +45,7 @@ class ModelAdmin(DjangoModelAdmin):
         )
 
 # patch ModelAdmin.render_change_form to use our ContentType
-render_func = copy_func(DjangoModelAdmin.render_change_form.im_func)
+render_func = copy_func(DjangoModelAdmin.render_change_form)
 render_func.func_globals['ContentType'] = ContentType
 ModelAdmin.render_change_form = render_func
 

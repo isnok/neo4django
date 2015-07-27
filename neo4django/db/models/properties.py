@@ -255,6 +255,11 @@ class BoundProperty(AttrRouter):
         errors = []
         return errors
 
+    def deconstruct(self):
+        path = 'neo4django.db.models.properties.' + self.__class__.__name__
+        name, args, kwargs = self.attname, self._args, self._kwargs
+        return name, path, args, kwargs
+
     def __init__(self, prop, cls, propname, attname, *args, **kwargs):
         super(BoundProperty, self).__init__(*args, **kwargs)
         self._property = prop
@@ -311,6 +316,8 @@ class BoundProperty(AttrRouter):
         self.__class = cls
         self.__propname = propname
         self.__attname = attname
+        self._args = (prop, cls, propname, attname) + args
+        self._kwargs = kwargs
 
         # TODO - i don't know why, but this is the final straw. properties
         # and boundproperties need to be merged, the coupling is ridiculous

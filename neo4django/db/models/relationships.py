@@ -225,7 +225,14 @@ class BoundRelationship(AttrRouter, DeferredAttribute):
     unique_for_year = False
     unique_for_month = False
 
+    def deconstruct(self):
+        path = 'neo4django.db.models.relationships.' + self.__class__.__name__
+        name, args, kwargs = self.__attname, self._args, self._kwargs
+        return name, path, args, kwargs
+
     def __init__(self, rel, source, relname, attname, serialize=True):
+        self._args = (rel, source, relname, attname)
+        self._kwargs = {'serialize': serialize}
         self.__rel = rel
         self.__source = source
         self._type = relname
@@ -249,6 +256,7 @@ class BoundRelationship(AttrRouter, DeferredAttribute):
                      'formfield',
                      ], self.__rel)
         self.null = False
+        self._args = 
 
     def get_attname_column(self):
         return (self.attname, self.attname)

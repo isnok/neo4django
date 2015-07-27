@@ -194,7 +194,7 @@ class Property(object):
         for v in self.validators:
             try:
                 v(value)
-            except exceptions.ValidationError, e:
+            except exceptions.ValidationError as e:
                 if hasattr(e, 'code') and e.code in self.error_messages:
                     message = self.error_messages[e.code]
                     if e.params:

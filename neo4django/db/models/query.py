@@ -1265,7 +1265,7 @@ class NodeQuerySet(QuerySet):
                 self._result_cache.append(next(self._iter))
             return self._result_cache[-1]
 
-        except self.model.DoesNotExist, e:
+        except self.model.DoesNotExist as e:
             raise IndexError(e.args)
 
     def __contains__(self, value):

@@ -25,7 +25,7 @@ def test_typenode_transactionality():
         r = RaceModel()
         try:
             r.save()
-        except Exception, e:
+        except Exception as e:
             exc_queue.put(str(e))
         else:
             exc_queue.put(True)
@@ -74,7 +74,7 @@ def test_autoproperty_transactionality():
         r = AutoRaceModel()
         try:
             r.save()
-        except Exception, e:
+        except Exception as e:
             queue.put(str(e))
         else:
             queue.put(True)

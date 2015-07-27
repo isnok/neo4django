@@ -54,6 +54,7 @@ class RelationshipModel(object):
 
 
 class Relationship(object):
+    is_relation = True
 
     def __init__(self, target, rel_type=None, direction=None, optional=True,
                  single=False, related_single=False, related_name=None,
@@ -65,11 +66,11 @@ class Relationship(object):
         elif direction is Incoming:
             direction = RELATIONSHIPS_IN
         elif direction is None:
-            if not isinstance(rel_type, basestring):
+            if not isinstance(rel_type, str):
                 direction = rel_type.direction
             else:
                 direction = RELATIONSHIPS_OUT
-        if not isinstance(rel_type, basestring):
+        if not isinstance(rel_type, str):
             if rel_type.direction != direction:
                 raise ValueError("Incompatible direction!")
             rel_type = rel_type.type
@@ -122,7 +123,7 @@ class Relationship(object):
     @staticmethod
     def get_name(target, single=False):
         suffix = '%s' if single else '%s_set'
-        if isinstance(target, basestring):
+        if isinstance(target, str):
             name = target.rsplit('.', 1)[-1]
         else:
             name = target.__name__
@@ -169,7 +170,7 @@ class Relationship(object):
             source._meta._relationships = {}
         source._meta._relationships[name] = bound
         setattr(source, name, bound)
-        if isinstance(self.__target, basestring):
+        if isinstance(self.__target, str):
             def setup(field, target, source):
                 if not issubclass(target, NodeModel):
                     raise TypeError("Relationships may only extend from Nodes.")
@@ -216,6 +217,7 @@ class BoundRelationship(AttrRouter, DeferredAttribute):
     primary_key = False
     choices = None
     db_index = None
+    is_relation = True
 
     blank = True
     unique = False
@@ -248,6 +250,9 @@ class BoundRelationship(AttrRouter, DeferredAttribute):
                      ], self.__rel)
         self.null = False
 
+    def get_attname_column(self):
+        return (self.attname, self.attname)
+
     def clean(self, value, instance):
         return value
 
@@ -259,7 +264,7 @@ class BoundRelationship(AttrRouter, DeferredAttribute):
 
     def _setup_reversed(self, target):
         self.__target = target
-        if not isinstance(target, basestring):
+        if not isinstance(target, str):
             self.__rel.reverse(self.__source,
                                self.__attname).contribute_to_class(
                                    target, self.reversed_name(self.__source))
@@ -536,6 +541,23 @@ class SingleRelationship(BoundRelationshipModel):  # WAIT!
 class MultipleNodes(BoundRelationship):
     #BoundRelationship subclass for a multi-node relationship without an
     #associated relationship model.
+    many_to_many = False
+    one_to_many = False
+    many_to_one = False
+    related_model = None
+
+    def check(self, **kwd):
+        errors = []
+        return errors
+
+    def __lt__(self, other):
+        return self.creation_counter < other.creation_counter
+
+    def __rlt__(self, other):
+        return self.creation_counter > other.creation_counter
+
+    def __eq__(self, other):
+        return self.creation_counter == other.creation_counter
 
     def value_from_object(self, obj):
         return self.__get__(obj).all()

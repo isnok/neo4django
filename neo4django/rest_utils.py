@@ -34,7 +34,7 @@ class Neo4jTable(object):
         if column_name_pred is None:
             column_name_pred = lambda s: s
         elif not callable(column_name_pred):
-            if isinstance(column_name_pred, basestring):
+            if isinstance(column_name_pred, str):
                 column_name = column_name_pred
                 column_name_pred = lambda s: s == column_name
             else:

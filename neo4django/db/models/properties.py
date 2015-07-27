@@ -249,6 +249,11 @@ class Property(object):
 class BoundProperty(AttrRouter):
     rel = None
     primary_key = False
+    is_relation = False
+
+    def check(self, **kwd):
+        errors = []
+        return errors
 
     def __init__(self, prop, cls, propname, attname, *args, **kwargs):
         super(BoundProperty, self).__init__(*args, **kwargs)
@@ -291,6 +296,7 @@ class BoundProperty(AttrRouter):
                      'get_internal_type',
                      'help_text',
                      'null',
+                     'get_attname_column',
                      #form-related properties
                      'editable',
                      'blank',
@@ -319,6 +325,12 @@ class BoundProperty(AttrRouter):
 
     def _property_type(self):
         return type(self._property)
+
+    def __lt__(self, other):
+        return self.creation_counter < other.creation_counter
+
+    def __eq__(self, other):
+        return self.creation_counter == other.creation_counter
 
     def __cmp__(self, other):
         return cmp(self.creation_counter, other.creation_counter)

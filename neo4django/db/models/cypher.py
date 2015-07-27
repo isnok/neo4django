@@ -7,7 +7,7 @@ from ...utils import not_none, uniqify
 
 
 def cypher_primitive(val):
-    if isinstance(val, basestring):
+    if isinstance(val, str):
         return '"%s"' % val
     elif val is None:
         return 'null'

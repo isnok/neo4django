@@ -20,7 +20,7 @@ def validate_str(value):
 
 
 def validate_basestring(value):
-    if not isinstance(value, basestring):
+    if not isinstance(value, str):
         raise exceptions.ValidationError('Enter a valid str.')
 
 

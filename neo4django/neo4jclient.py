@@ -151,7 +151,7 @@ class EnhancedGraphDatabase(GraphDatabase):
             if raw:
                 execute_kwargs['returns'] = RETURNS_RAW
             script_rv = ext.execute_script(s, params=params, **execute_kwargs)
-            if isinstance(script_rv, basestring):
+            if isinstance(script_rv, str):
                 if LIBRARY_ERROR_REGEX.match(script_rv):
                     raise LibraryCouldNotLoad
                 elif script_rv.startswith('{'):
@@ -186,7 +186,7 @@ Library = namedtuple('Library', ['source', 'loaded'])
 
 
 def load_library(library_class, library_source):
-    if not isinstance(library_class, basestring):
+    if not isinstance(library_class, str):
         raise TypeError('Expected a string class name, not %s.'
                         % str(library_class))
     if library_class == LIBRARY_NAME:

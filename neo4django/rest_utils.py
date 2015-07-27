@@ -1,5 +1,5 @@
 from operator import itemgetter, add
-from itertools import izip_longest, chain, ifilter
+from itertools import zip_longest, chain, ifilter
 
 
 def id_from_url(url):
@@ -68,11 +68,11 @@ class Neo4jTable(object):
                              ' as existing columns.')
         self.column_names = self.column_names + [column_name]
         self.data = [list(r) + [new_element] for r, new_element in
-                     izip_longest(self.data, column_rows)]
+                     zip_longest(self.data, column_rows)]
 
     def to_dicts(self):
         def to_dict(row):
-            return dict(izip_longest(self.column_names, row))
+            return dict(zip_longest(self.column_names, row))
         return [to_dict(r) for r in self.data]
 
     def __len__(self):
@@ -82,4 +82,4 @@ class Neo4jTable(object):
 def prettify_path(path_dict):
     nodes = ['(%d)' % id_from_url(url) for url in path_dict['nodes']]
     rels = ['[%d]' % id_from_url(url) for url in path_dict['relationships']]
-    return '->'.join(ifilter(None, chain.from_iterable(izip_longest(nodes, rels))))
+    return '->'.join(ifilter(None, chain.from_iterable(zip_longest(nodes, rels))))

@@ -507,7 +507,7 @@ def cypher_from_fields(nodetype, fields):
 
         model_match = ''.join(
             itertools.ifilter(None, itertools.chain.from_iterable(
-                itertools.izip_longest(rel_match_components,
+                itertools.zip_longest(rel_match_components,
                                        node_match_components))))
 
         matches.append('%s=(s%s)' % (path_name, model_match))
